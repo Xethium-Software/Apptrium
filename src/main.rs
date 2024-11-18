@@ -1,6 +1,7 @@
 use gtk4 as gtk;
 use gtk::prelude::*;
 use gtk::{glib, Application, ApplicationWindow};
+use gtk4::Button;
 
 fn main() -> glib::ExitCode {
     let app = Application::builder()
@@ -19,9 +20,16 @@ fn main() -> glib::ExitCode {
             .title("Apptrium")
             .build();
 
+        let DarkModeButton = Button::new();
+        DarkModeButton.set_label("Dark Mode");
+
+        DarkModeButton.connect_clicked(|_| {
+            println!("Dark Mode!");
+        });
+
+        window.set_child(Some(&DarkModeButton));
         // Show the window. 
         window.present();
     });
-
     app.run()
 }
