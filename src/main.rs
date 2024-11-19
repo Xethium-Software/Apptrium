@@ -8,10 +8,14 @@
 /// - Added CSS providers for light and dark themes.
 /// - Fixed layout margins for better UI appearance.
 
+// I hate this warning
+#[allow(unused_imports)]
+
 // Imports
 use gtk::prelude::*;
 use gtk::{glib, Application, ApplicationWindow, Button, CssProvider};
 use gtk::gdk;
+use log::{debug, error, info, warn};
 
 // Imports: Apptrium modules
 mod json_parse; // Fetch database data
@@ -23,6 +27,8 @@ fn main() -> glib::ExitCode {
     let app = Application::builder()
         .application_id("org.Xethium.Apptrium")
         .build();
+
+    env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("debug")).init();
 
     app.connect_activate(|app| {
         // Create a 1000x600 window
@@ -50,7 +56,7 @@ fn main() -> glib::ExitCode {
         });
 
         // Apply initial CSS
-        LightBgCss();
+        light_bg_css();
 
         // Set the button as the window child
         window.set_child(Some(&dark_mode_button));
@@ -62,7 +68,7 @@ fn main() -> glib::ExitCode {
     app.run()
 }
 
-fn DarkBgCss() {
+fn dark_bg_css() {
     let display = gdk::Display::default().expect("Could not get default display.");
     let provider = CssProvider::new();
     let priority = gtk::STYLE_PROVIDER_PRIORITY_APPLICATION;
@@ -72,7 +78,7 @@ fn DarkBgCss() {
     gtk::style_context_add_provider_for_display(&display, &provider, priority);
 }
 
-fn LightBgCss() {
+fn light_bg_css() {
     let display = gdk::Display::default().expect("Could not get default display.");
     let provider = CssProvider::new();
     let priority = gtk::STYLE_PROVIDER_PRIORITY_APPLICATION;
@@ -85,12 +91,12 @@ fn LightBgCss() {
 fn toggle_dark_mode() {
     unsafe {
         if !IS_DARK_MODE {
-            println!("Switching to Light Mode!");
-            DarkBgCss();
+            debug!("Theme switched to Light Mode.");
+            dark_bg_css();
             IS_DARK_MODE = true;
         } else {
-            println!("Switching to Dark Mode!");
-            LightBgCss();
+            debug!("Theme switched to Dark Mode");
+            light_bg_css();
             IS_DARK_MODE = false;
         }
     }
