@@ -3,6 +3,16 @@
 version = 4
 
 [[package]]
+name = "Apptrium"
+version = "0.1.0"
+dependencies = [
+ "gtk4",
+ "reqwest",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.24.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -546,16 +556,6 @@ dependencies = [
  "libc",
  "once_cell",
  "pango",
-]
-
-[[package]]
-name = "gtk4-dark-mode"
-version = "0.1.0"
-dependencies = [
- "gtk4",
- "reqwest",
- "serde",
- "serde_json",
 ]
 
 [[package]]

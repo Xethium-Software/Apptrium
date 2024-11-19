@@ -46,6 +46,7 @@ fn main() -> glib::ExitCode {
 
         // Connect the button click to toggle dark mode
         dark_mode_button.connect_clicked(|_| {
+            settings_popup();
             toggle_dark_mode();
         });
 
@@ -94,4 +95,18 @@ fn toggle_dark_mode() {
             IS_DARK_MODE = false;
         }
     }
+}
+
+fn settings_popup() {
+    // Create the setting pop-up dialog.
+    let setting_window = gtk::Dialog::new();
+    setting_window.set_title(Some("Settings"));
+    setting_window.set_default_size(800, 600);
+    setting_window.set_resizable(false);
+
+    let content_area = setting_window.content_area();
+    let label = gtk::Label::new(Some("This is setting."));
+    content_area.append(&label);
+
+    setting_window.show();
 }
