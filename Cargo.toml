@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+dirs = "5.0.1"
 env_logger = "0.11.5"
 gtk = { version = "0.6.1", package = "gtk4", features = ["v4_6"] }
 log = "0.4.22"

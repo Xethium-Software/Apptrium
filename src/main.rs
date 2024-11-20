@@ -1,15 +1,18 @@
+#![allow(unused_imports)]
+
 /// theridev was here
-/// Nov 18: Main
+/// Nov 18: master
 /// Nov 19: Apptrium-Legacy-ToRust
+/// Nov 19: master
+/// Nov 20: master
+/// - Added preferences.json fetching for dark / light mode.
 
 // barkotbb was here
-/// Nov 19: Added Dark Mode toggle functionality
+/// Nov 19: DarkMode
+/// Added Dark Mode toggle functionality
 /// - Implemented a button to switch between light and dark themes.
 /// - Added CSS providers for light and dark themes.
 /// - Fixed layout margins for better UI appearance.
-
-// I hate this warning
-#[allow(unused_imports)]
 
 // Imports
 use gtk::prelude::*;
@@ -55,14 +58,34 @@ fn main() -> glib::ExitCode {
             toggle_dark_mode();
         });
 
-        // Apply initial CSS
-        light_bg_css();
+        match json_parse::get_preferences_value("Theme", "darkMode") {
+            Ok(value) => {
+                let theme = match value.to_lowercase().as_str() {
+                    // WARNING: Programming war crime
+                    "true" => Some(false),
+                    "false" => Some(true),
+                    _ => {
+                        error!("Property Theme:DarkMode is {}, which is not a valid key. Falling back to default theme.", value);
+                        Some(true)
+                       // Fall back to default theme - Light theme.
+                    }
+                };
+        
+                unsafe {
+                    IS_DARK_MODE = theme.unwrap_or(false);
+                }
+        
+                toggle_dark_mode();
+            }
+            Err(e) => eprintln!("Error: {}", e),
+        }
 
         // Set the button as the window child
         window.set_child(Some(&dark_mode_button));
 
         // Show the window
         window.present();
+        debug!("Main: Window created!")
     });
 
     app.run()
@@ -89,13 +112,14 @@ fn light_bg_css() {
 }
 
 fn toggle_dark_mode() {
+    // Nov 20: Logging was fricked up, had to fix.
     unsafe {
         if !IS_DARK_MODE {
-            debug!("Theme switched to Light Mode.");
+            debug!("Theme switched to Dark Mode.");
             dark_bg_css();
             IS_DARK_MODE = true;
         } else {
-            debug!("Theme switched to Dark Mode");
+            debug!("Theme switched to Light Mode.");
             light_bg_css();
             IS_DARK_MODE = false;
         }
