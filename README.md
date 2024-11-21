@@ -1,95 +1,58 @@
-```markdown
-# Linux Package Manager with Beginner-Friendly GUI 🌟
-
-Welcome to our **Linux package manager**! This tool is designed to make managing packages easier for everyone, featuring a simple GUI. It currently supports **Arch Linux** and **Debian-based distros** with plans for expansion.
+This is a Linux package manager with a beginner-friendly GUI, written in Rust, to simplify package management. It supports multiple Linux distributions and will initially be released for Arch Linux and Debian-based distros.
 
 ---
 
-## 🚀 Features
-- **Beginner-friendly GUI** to simplify package management tasks.
-- **Multi-distro support**, starting with Arch Linux and Debian-based distributions.
-- Built with **Rust** for speed and reliability.
+**How to build and run?**  
+First, make sure Rust is installed. Here’s how:
 
----
-
-## 🛠️ Installation Guide
-
-### Prerequisites
-Before building and running the project, ensure Rust is installed on your system.
-
-#### For Arch Linux:
-1. Install Rustup:
-   ```bash
+1. **For Arch Linux:**  
+   Run the following commands:  
+   ```
    sudo pacman -S rustup
-   ```
-2. Set the default Rust version to stable:
-   ```bash
    rustup default stable
    ```
 
-#### For Debian-based Distros (e.g., Ubuntu):
-1. Update your package list and install Rustup:
-   ```bash
+2. **For Debian-based distros (e.g., Ubuntu):**  
+   Run the following commands:  
+   ```
    sudo apt update && sudo apt install rustup
-   ```
-2. Set the default Rust version to stable:
-   ```bash
    rustup default stable
    ```
 
----
-
-## 🛠️ How to Build the Project
-
-1. Clone the repository:
-   ```bash
-   git clone <repo_url>
-   cd <project_directory>
+**Building the project:**  
+1. Clone the repository:  
+   ```
+   git clone https://github.com/Xethium-Software/Apptrium/
+   cd Apptrium
    ```
 
-2. Build the project using `cargo`:
-   ```bash
+2. Build the project using Cargo:  
+   ```
    cargo build
    ```
-   This will compile the project and fetch all required dependencies.
+   This will compile all the libraries and dependencies.
 
-3. Run the project:
-   ```bash
+3. Run the project:  
+   ```
    cargo run
    ```
 
----
-
-## ⬇️ Getting the Latest Release
-If you prefer not to build the project yourself, download the **latest release** from the [Releases](https://github.com/<repo_url>/releases) tab.  
-Simply download the binary for your system and run it.
-
-> **Note:** If there are no releases yet, the project is still under development. Stay tuned for updates!
+Alternatively, download the latest release from the Releases tab and run the pre-built binary. If no release is available, it means the project is still under development.
 
 ---
 
-## 📦 Dependencies
-The project uses the following Rust libraries:
-
-| Library           | Version   | Description                            |
-|--------------------|-----------|----------------------------------------|
-| `dirs`            | 5.0.1     | Convenient platform-specific paths.    |
-| `env_logger`      | 0.11.5    | Logging setup made simple.             |
-| `gtk`             | 0.6.1     | GTK4 for GUI (with `v4_6` feature).    |
-| `log`             | 0.4.22    | Structured logging for Rust apps.      |
-| `reqwest`         | 0.12.9    | HTTP requests (`blocking` feature).    |
-| `serde`           | 1.0.215   | Serialization and deserialization.     |
-| `serde_json`      | 1.0.133   | JSON parsing and manipulation.         |
+**Dependencies:**  
+This project uses the following Rust libraries:  
+- dirs = "5.0.1"  
+- env_logger = "0.11.5"  
+- gtk = { version = "0.6.1", package = "gtk4", features = ["v4_6"] }  
+- log = "0.4.22"  
+- reqwest = { version = "0.12.9", features = ["blocking"] }  
+- serde = { version = "1.0.215", features = ["derive"] }  
+- serde_json = "1.0.133"  
 
 ---
 
-## 💻 Contributors
-This project is brought to you by:
-- **[Barkotbb](https://github.com/barkotbb)**  
-- **[Theridev (Theri)](https://github.com/theridev)**  
-
-
----
-
-Enjoy managing your Linux packages the easy way! 🎉
-```
+**Contributors:**  
+- Barkotbb: https://github.com/barkotbb  
+- Theridev (Theri): https://github.com/theridev
