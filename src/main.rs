@@ -1,28 +1,39 @@
-/// theridev was here
-/// Nov 18: Main
-/// Nov 19: Apptrium-Legacy-ToRust
+#![allow(unused_imports)]
 
-// barkotbb was here
-/// Nov 19: Added Dark Mode toggle functionality
+/// theridev was here
+/// Nov 18: master
+/// Nov 19: Apptrium-Legacy-ToRust
+/// Nov 19: master
+/// Nov 20: master
+/// - Added preferences.json fetching for dark / light mode.
+
+// ShaderHex was here
+/// Nov 19: DarkMode
+/// Added Dark Mode toggle functionality
 /// - Implemented a button to switch between light and dark themes.
 /// - Added CSS providers for light and dark themes.
 /// - Fixed layout margins for better UI appearance.
+/// Nov 22
+/// - Added Setting pop-up.
+/// - Added Dark / Light function.
+/// - I organized the code into different files.
 
-// Imports
+
 use gtk::prelude::*;
-use gtk::{glib, Application, ApplicationWindow, Button, CssProvider};
-use gtk::gdk;
+use gtk::{glib, Application, ApplicationWindow, Button, CssProvider, Fixed};
+use log::{debug, error};
 
-// Imports: Apptrium modules
 mod json_parse; // Fetch database data
+mod setting;
 
 static mut IS_DARK_MODE: bool = false;
 
-// Main function
 fn main() -> glib::ExitCode {
     let app = Application::builder()
         .application_id("org.Xethium.Apptrium")
         .build();
+    
+    env_logger::Builder::from_env(env_logger::Env::default().default_filter_or("debug")).init();
 
     app.connect_activate(|app| {
         // Create a 1000x600 window
@@ -34,79 +45,51 @@ fn main() -> glib::ExitCode {
             .title("Apptrium")
             .build();
 
-        // Create the DarkModeButton
-        let dark_mode_button = Button::new();
-        dark_mode_button.set_label("Toggle Dark Mode");
+        let layout = Fixed::new();
 
-        // Set margins for button
-        dark_mode_button.set_margin_top(180);
-        dark_mode_button.set_margin_bottom(180);
-        dark_mode_button.set_margin_end(180);
-        dark_mode_button.set_margin_start(180);
+        // Create the Settings button
+        let settings_button = Button::new();
+        settings_button.set_label("Settings");
+        settings_button.set_widget_name("settings_button");
 
-        // Connect the button click to toggle dark mode
-        dark_mode_button.connect_clicked(|_| {
-            settings_popup();
-            toggle_dark_mode();
+        // Connect the button click to open settings popup
+        settings_button.connect_clicked(|_| {
+            setting::settings_popup();
         });
 
-        // Apply initial CSS
-        LightBgCss();
+        // Fetch initial preferences and apply theme
+        match json_parse::get_preferences_value("Theme", "darkMode") {
+            Ok(value) => {
+                let theme = match value.to_lowercase().as_str() {
+                    "true" => Some(false),
+                    "false" => Some(true),
+                    _ => {
+                        error!("Invalid Theme:DarkMode value: {}. Defaulting to Light Mode.", value);
+                        Some(true) // Fall back to Light Mode.
+                    }
+                };
 
-        // Set the button as the window child
-        window.set_child(Some(&dark_mode_button));
+                unsafe {
+                    IS_DARK_MODE = theme.unwrap_or(false);
+                }
+
+                // Apply the determined theme
+                setting::toggle_dark_mode();
+            }
+            Err(e) => eprintln!("Error fetching preferences: {}", e),
+        }
+
+        // Load CSS styles
+        setting::loading_style_css();
+
+        layout.put(&settings_button, 870.0, 50.0);
+        window.set_child(Some(&layout));
 
         // Show the window
         window.present();
+        debug!("Main: Window created!");
     });
 
     app.run()
 }
 
-fn DarkBgCss() {
-    let display = gdk::Display::default().expect("Could not get default display.");
-    let provider = CssProvider::new();
-    let priority = gtk::STYLE_PROVIDER_PRIORITY_APPLICATION;
-
-    // Load the CSS from src/darkmode.css
-    provider.load_from_data(include_str!("./Style/darkmode.css"));
-    gtk::style_context_add_provider_for_display(&display, &provider, priority);
-}
-
-fn LightBgCss() {
-    let display = gdk::Display::default().expect("Could not get default display.");
-    let provider = CssProvider::new();
-    let priority = gtk::STYLE_PROVIDER_PRIORITY_APPLICATION;
-
-    // Load the CSS from src/lightmode.css
-    provider.load_from_data(include_str!("./Style/lightmode.css"));
-    gtk::style_context_add_provider_for_display(&display, &provider, priority);
-}
-
-fn toggle_dark_mode() {
-    unsafe {
-        if !IS_DARK_MODE {
-            println!("Switching to Light Mode!");
-            DarkBgCss();
-            IS_DARK_MODE = true;
-        } else {
-            println!("Switching to Dark Mode!");
-            LightBgCss();
-            IS_DARK_MODE = false;
-        }
-    }
-}
-
-fn settings_popup() {
-    // Create the setting pop-up dialog.
-    let setting_window = gtk::Dialog::new();
-    setting_window.set_title(Some("Settings"));
-    setting_window.set_default_size(800, 600);
-    setting_window.set_resizable(false);
-
-    let content_area = setting_window.content_area();
-    let label = gtk::Label::new(Some("This is setting."));
-    content_area.append(&label);
-
-    setting_window.show();
-}

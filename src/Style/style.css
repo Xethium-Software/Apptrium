@@ -1,0 +1,56 @@
+#settings_button {
+    background-color: #5adaff !important;
+    border-radius: 6px;
+    color: white !important; 
+    padding: 10px 20px;
+    font-size: 12px;
+    font-family: "JetBrains Mono", monospace;
+    box-shadow: rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, rgba(58, 65, 111, .5) 0 -3px 0 inset;
+    transition: all 0.15s ease;
+}
+
+#settings_button:hover {
+    background-color: #5468ff !important; 
+    transform: translateY(-2px);
+}
+
+#settings_button:active {
+    background-color: #3c4fe0 !important;
+    transform: translateY(2px);
+}
+
+#settings_button:focus {
+    box-shadow: #3c4fe0 0 0 0 1.5px inset !important;
+}
+
+#line {
+    border-top: 2px solid rgb(100, 100, 100);
+    margin: 20px 0;
+    height: 1px;
+    width: 100%;
+}
+
+#dark_light_button {
+    background-color: #ffcc00 !important; 
+    border-radius: 6px;
+    color: white !important; 
+    padding: 10px 20px;
+    font-size: 18px;
+    font-family: "JetBrains Mono", monospace;
+    box-shadow: rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, rgba(58, 65, 111, .5) 0 -3px 0 inset;
+    transition: all 0.15s ease;
+}
+
+#dark_light_button:hover {
+    background-color: #ff9900 !important; 
+    transform: translateY(-2px);
+}
+
+#dark_light_button:active {
+    background-color: #ff6600 !important;
+    transform: translateY(2px);
+}
+
+#dark_light_button:focus {
+    box-shadow: #ffcc00 0 0 0 1.5px inset !important;
+}
