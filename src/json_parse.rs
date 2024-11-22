@@ -21,7 +21,7 @@ use std::path::PathBuf;
 #[allow(dead_code)]
 pub fn get_app_database_value(app: &str, val: &str) -> serde_json::Result<String> {
     // Fetch data from the URL
-    let contents = reqwest::blocking::get("https://cdn.discordapp.com/attachments/1292183239632486492/1308441965821694012/apps.json?ex=673df50a&is=673ca38a&hm=d15eeaa144d1d949f28dac59d46357a60c045c6624ec8044d2ee4ee77e69a5d8&")
+    let contents = reqwest::blocking::get("https://raw.githubusercontent.com/Xethium-Software/Apptrium-Backend/refs/heads/main/preferences.json")
         .map_err(|e| serde_json::Error::custom(format!("HTTP request failed: {}", e)))?
         .text()
         .map_err(|e| serde_json::Error::custom(format!("Failed to get text: {}", e)))?;
@@ -70,4 +70,3 @@ pub fn get_preferences_value(category: &str, pref: &str) -> serde_json::Result<S
         )))
     }
 }
-
