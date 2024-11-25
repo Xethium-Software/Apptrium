@@ -54,5 +54,5 @@ This project uses the following Rust libraries:
 ---
 
 **Contributors:**  
-- ShaderHex: https://github.com/barkotbb  
+- ShaderHex: https://github.com/ShaderHex  
 - Theridev (Theri): https://github.com/theridev
