@@ -76,7 +76,7 @@ fn main() -> glib::ExitCode {
                 // Apply the determined theme
                 setting::toggle_dark_mode();
             }
-            Err(e) => eprintln!("Error fetching preferences: {}", e),
+            Err(e) => error!("Error fetching preferences: {}", e),
         }
 
         // Load CSS styles
